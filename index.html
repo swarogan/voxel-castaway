@@ -12,8 +12,17 @@
     <link rel="icon" type="image/svg+xml" href="./icon.svg" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="apple-touch-icon" href="./icon.svg" />
-    <script type="module" crossorigin src="./assets/index-lXktWiwd.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Bow2tVpC.css">
+    <script>
+      // The static markup is deliberately hidden until the runtime locale is
+      // applied, so a Polish language pack never flashes before English (or
+      // the other way around when ?lang=pl is used).
+      document.documentElement.classList.add('locale-booting');
+      window.setTimeout(function () {
+        document.documentElement.classList.remove('locale-booting');
+      }, 1800);
+    </script>
+    <script type="module" crossorigin src="./assets/index-C-L8DKUF.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BSDZC3Bo.css">
   </head>
   <body class="intro-open">
     <div id="app">
@@ -154,6 +163,9 @@
           <button data-debug="forcePirates">piraci</button>
           <button data-debug="forceHoliday">święto</button>
           <button data-debug="forceStorm">burza</button>
+          <button data-debug="forceHeavyRain">ulewa</button>
+          <button data-debug="forceWindy">wiatr</button>
+          <button data-debug="forceFog">mgła</button>
           <button data-debug="resetAI">reset AI</button>
         </div>
       </aside>
