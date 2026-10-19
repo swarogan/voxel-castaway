@@ -1,0 +1,27 @@
+{
+  "name": "Voxel Castaway — samotnik z wyspy",
+  "short_name": "Voxel Castaway",
+  "description": "Autonomiczna voxelowa wyspa. Obserwuj rozbitka, który żyje własnym życiem.",
+  "lang": "pl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#08252b",
+  "theme_color": "#0a2a30",
+  "categories": ["entertainment", "simulation"],
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

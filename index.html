@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a2a30" />
+    <meta
+      name="description"
+      content="Voxel Castaway — an autonomous voxel island. Watch a castaway live a life of his own."
+    />
+    <title>Voxel Castaway — a castaway's island</title>
+    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <script type="module" crossorigin src="./assets/index-lXktWiwd.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Bow2tVpC.css">
+  </head>
+  <body class="intro-open">
+    <div id="app">
+      <canvas id="world" aria-label="Voxelowa wyspa z rozbitkiem"></canvas>
+      <div class="grade" aria-hidden="true"></div>
+      <div class="grain" aria-hidden="true"></div>
+      <div class="vignette" aria-hidden="true"></div>
+
+      <header class="masthead" id="masthead">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <h1>Voxel Castaway</h1>
+            <p>samotnik&nbsp;z&nbsp;wyspy</p>
+          </div>
+        </div>
+        <div class="clockline">
+          <span id="dayLabel">dzień 1</span>
+          <span class="dot">·</span>
+          <span id="timeLabel">09:12</span>
+          <span class="dot">·</span>
+          <span id="weatherLabel" class="weather">słońce</span>
+        </div>
+      </header>
+
+      <aside class="vitals panel" id="vitals" aria-label="Stan rozbitka">
+        <div class="panel-head">
+          <span>Stan rozbitka</span>
+          <span class="micro" id="moodWord">spokojny</span>
+        </div>
+        <div class="vital" data-need="hunger"><span>Głód</span><div class="track"><i></i></div><b>0</b></div>
+        <div class="vital" data-need="energy"><span>Energia</span><div class="track"><i></i></div><b>0</b></div>
+        <div class="vital" data-need="boredom"><span>Nuda</span><div class="track"><i></i></div><b>0</b></div>
+        <div class="vital" data-need="mood"><span>Nastrój</span><div class="track"><i></i></div><b>0</b></div>
+        <div class="vital" data-need="hope"><span>Nadzieja</span><div class="track"><i></i></div><b>0</b></div>
+        <div class="vital" data-need="curiosity"><span>Ciekawość</span><div class="track"><i></i></div><b>0</b></div>
+      </aside>
+
+      <div class="activity" id="activity" aria-live="polite">
+        <span class="pulse"></span>
+        <span id="activityText">rozgląda się po wyspie</span>
+      </div>
+
+      <aside class="journal panel hidden" id="journal" aria-label="Dziennik">
+        <div class="panel-head">
+          <span>Dziennik</span>
+          <button class="iconbtn close" data-close="journal" aria-label="Zamknij dziennik">×</button>
+        </div>
+        <div class="journal-tabs">
+          <button class="tab active" data-tab="log">Zapiski</button>
+          <button class="tab" data-tab="finds">Odkrycia</button>
+          <button class="tab" data-tab="story">Historia</button>
+        </div>
+        <div id="journalBody" class="journal-body"></div>
+      </aside>
+
+      <div class="dock" id="dock">
+        <button class="dockbtn" id="btnJournal" title="Dziennik (J)">
+          <span class="ico" aria-hidden="true">✎</span><span>dziennik</span>
+        </button>
+        <button class="dockbtn" id="btnScreensaver" title="Tryb wygaszacza (H)">
+          <span class="ico" aria-hidden="true">◐</span><span>tylko patrz</span>
+        </button>
+        <button class="dockbtn" id="btnSettings" title="Ustawienia (S)">
+          <span class="ico" aria-hidden="true">⚙</span><span>ustawienia</span>
+        </button>
+      </div>
+
+      <div class="reveal-hint hidden" id="revealHint">najedź kursorem, aby przywołać panel</div>
+
+      <section class="settings panel hidden" id="settings" aria-label="Ustawienia">
+        <div class="panel-head">
+          <span>Ustawienia obserwacji</span>
+          <button class="iconbtn close" data-close="settings" aria-label="Zamknij ustawienia">×</button>
+        </div>
+
+        <fieldset>
+          <legend>Kamera</legend>
+          <label class="radio"><input type="radio" name="camera" value="iso" checked /><span>Izometryczna</span><em>nieruchoma miniatura</em></label>
+          <label class="radio"><input type="radio" name="camera" value="free" /><span>Swobodna</span><em>obrót i zoom</em></label>
+          <label class="check"><input type="checkbox" id="follow" /><span>Śledź rozbitka</span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Upływ czasu</legend>
+          <label class="radio"><input type="radio" name="clock" value="fast" checked /><span>Przyspieszony</span><em>doba co 30 minut</em></label>
+          <label class="radio"><input type="radio" name="clock" value="real" /><span>Zegar systemowy</span><em>pora dnia jak u Ciebie</em></label>
+          <label class="range"><span>Długość doby</span><input type="range" id="dayLength" min="15" max="60" step="5" value="30" /><b id="dayLengthOut">30 min</b></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Prędkość symulacji</legend>
+          <div class="seg" id="speedSeg">
+            <button data-speed="1" class="active">1×</button>
+            <button data-speed="2">2×</button>
+            <button data-speed="5">5×</button>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Dźwięk</legend>
+          <label class="check"><input type="checkbox" id="sound" /><span>Dźwięki otoczenia</span></label>
+          <p class="note" id="soundNote">Fale, wiatr, ogień i nocne świerszcze. Dźwięk włącza się po kliknięciu.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Język / Language</legend>
+          <label class="range"><span>Język</span><select id="language"><option value="pl">Polski</option><option value="en">English</option></select></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Diagnostyka</legend>
+          <label class="check"><input type="checkbox" id="debug" /><span>Panel diagnostyczny</span></label>
+        </fieldset>
+
+        <div class="settings-actions">
+          <button id="btnFullscreen">Pełny ekran</button>
+          <button id="btnCopy">Kopiuj ustawienia</button>
+          <button id="btnReset" class="danger">Resetuj historię</button>
+        </div>
+        <p class="note tiny">Obserwacja trwa. Wszystko, co widzisz, dzieje się bez Twojego udziału.</p>
+      </section>
+
+      <aside class="debug panel hidden" id="debugPanel" aria-label="Diagnostyka">
+        <div class="panel-head">
+          <span>Diagnostyka</span>
+          <button class="iconbtn close" data-close="debug" aria-label="Zamknij diagnostykę">×</button>
+        </div>
+        <div id="debugBody" class="debug-body"></div>
+        <div class="debug-actions">
+          <button data-debug="skipHour">+1 godzina</button>
+          <button data-debug="forceRain">deszcz</button>
+          <button data-debug="forceClear">słońce</button>
+          <button data-debug="forceShip">statek</button>
+          <button data-debug="forceMermaid">syrena</button>
+          <button data-debug="forceChest">skrzynia</button>
+          <button data-debug="forceSeagull">mewa</button>
+          <button data-debug="forcePirates">piraci</button>
+          <button data-debug="forceHoliday">święto</button>
+          <button data-debug="forceStorm">burza</button>
+          <button data-debug="resetAI">reset AI</button>
+        </div>
+      </aside>
+
+      <div class="toast" id="toast" role="status"></div>
+      <div class="audio-hint hidden" id="audioHint"><span>♪</span> kliknij, by usłyszeć wyspę</div>
+
+      <div class="intro" id="intro">
+        <div class="intro-inner">
+          <p class="eyebrow">pewnego dnia morze wyrzuciło go na brzeg</p>
+          <h2>Voxel<br />Castaway</h2>
+          <p class="sub">Mała wyspa. Jeden rozbitek. Żadnych poleceń.<br />Po prostu patrz, jak żyje.</p>
+          <button id="introStart">Zacznij obserwację</button>
+          <p class="intro-foot">Wyspa działa także bez Ciebie.</p>
+        </div>
+      </div>
+
+      <div class="pause-badge hidden" id="pauseBadge">pauza</div>
+
+      <div class="thought-bubble hidden" id="thoughtBubble" role="img" aria-live="polite">
+        <img id="thoughtIcon" class="thought-icon" alt="" draggable="false" />
+        <span class="thought-tail" aria-hidden="true"></span>
+      </div>
+    </div>
+  </body>
+</html>
